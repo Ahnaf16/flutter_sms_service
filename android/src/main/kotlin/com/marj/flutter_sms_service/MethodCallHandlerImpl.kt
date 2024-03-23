@@ -27,14 +27,20 @@ internal class MethodCallHandlerImpl(
         }
     }
 
-    private fun getSubscriptionInfoLis(): List<SubscriptionInfo> {
+    private fun getSubscriptionInfoLis(): List<SubInfo> {
 
         val selfPermission: Int =
             ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
 
         val permissionGranted: Boolean = selfPermission == PackageManager.PERMISSION_GRANTED
 
-        return if (permissionGranted) subscriptionManager.activeSubscriptionInfoList else listOf<SubscriptionInfo>()
+        if (!permissionGranted) {
+            return listOf<SubInfo>()
+        }
+
+        val list=  subscriptionManager.activeSubscriptionInfoList
+
+    return    list.map { SubInfo.fromSubscriptionInfo(it,0) };
     }
 
 }
