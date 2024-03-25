@@ -6,7 +6,7 @@ class SubscriptionInfo {
     required this.carrierId,
     required this.subscriptionId,
     required this.simSlotIndex,
-    this.countryIso,
+    required this.countryIso,
     this.mobileCountryCode,
     this.mobileNetworkCode,
     this.cardId,
@@ -16,22 +16,22 @@ class SubscriptionInfo {
     this.number,
   });
 
-  factory SubscriptionInfo.fromMap(Map<String, dynamic> map) {
+  factory SubscriptionInfo.fromMap(Map<dynamic, dynamic> map) {
     return SubscriptionInfo(
-      cardId: map['cardId']?.toInt(),
-      carrierId: map['carrierId'] ?? '',
-      carrierName: map['carrierName'] ?? '',
-      countryIso: map['countryIso']?.toInt(),
-      displayName: map['displayName'] ?? '',
+      cardId: map['cardId'],
+      carrierId: map['carrierId'],
+      carrierName: map['carrierName'],
+      countryIso: map['countryIso'],
+      displayName: map['displayName'],
       isEmbedded: map['isEmbedded'],
       mobileCountryCode: map['mobileCountryCode'],
       mobileNetworkCode: map['mobileNetworkCode'],
       number: map['number'],
-      portIndex: map['portIndex']?.toInt(),
-      simSlotIndex: map['simSlotIndex']?.toInt() ?? 0,
-      index: map['index']?.toInt() ?? 0,
-      subscriptionId: map['subscriptionId']?.toInt() ?? 0,
-      subscriptionType: map['subscriptionType']?.toInt(),
+      portIndex: map['portIndex'],
+      simSlotIndex: map['simSlotIndex'],
+      index: map['slot'],
+      subscriptionId: map['subscriptionId'],
+      subscriptionType: map['subscriptionType'],
     );
   }
 
@@ -43,7 +43,7 @@ class SubscriptionInfo {
   /// The carrier id of this subscription carrier.
   ///
   /// requires API level 29 or higher (Android Q)
-  final String carrierId;
+  final int carrierId;
 
   /// The name displayed to the user that identifies subscription
   /// provider name. This name is the SPN displayed in status bar and many
@@ -51,7 +51,7 @@ class SubscriptionInfo {
   final String carrierName;
 
   /// The ISO country code. Empty if not available.
-  final int? countryIso;
+  final String countryIso;
 
   /// The name displayed to the user that identifies this subscription.
   ///  This name is used in Settings page and can be renamed by the user.
@@ -104,6 +104,25 @@ class SubscriptionInfo {
   /// requires API level 29 or higher (Android Q)
   final int? subscriptionType;
 
+  @override
+  String toString() {
+    return 'SubscriptionInfo \n'
+        'cardId: $cardId, \n'
+        'carrierId: $carrierId, \n'
+        'carrierName: $carrierName, \n'
+        'countryIso: $countryIso, \n'
+        'displayName: $displayName, \n'
+        'isEmbedded: $isEmbedded, \n'
+        'mobileCountryCode: $mobileCountryCode, \n'
+        'mobileNetworkCode: $mobileNetworkCode, \n'
+        'number: $number, \n'
+        'portIndex: $portIndex, \n'
+        'simSlotIndex: $simSlotIndex, \n'
+        'index: $index, \n'
+        'subscriptionId: $subscriptionId, \n'
+        'subscriptionType: $subscriptionType';
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'cardId': cardId,
@@ -117,7 +136,7 @@ class SubscriptionInfo {
       'number': number,
       'portIndex': portIndex,
       'simSlotIndex': simSlotIndex,
-      'index': index,
+      'slot': index,
       'subscriptionId': subscriptionId,
       'subscriptionType': subscriptionType,
     };

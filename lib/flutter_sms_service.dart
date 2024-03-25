@@ -5,6 +5,10 @@ import 'package:flutter_sms_service/src/models/subscription_info.dart';
 
 import 'src/flutter_sms_service_platform_interface.dart';
 
+export 'src/models/sms_data.dart';
+export 'src/models/sms_send_result.dart';
+export 'src/models/subscription_info.dart';
+
 class FlutterSmsService {
   final _platform = FlutterSmsServicePlatform.instance;
 
@@ -26,7 +30,7 @@ class FlutterSmsService {
     return _platform.sendSMS(smsData, onSMSDelivered: onSMSDelivered);
   }
 
-  Future<List<SubscriptionInfo>> getSimSubscriptionInfo() {
-    return _platform.getSubscriptionInfo();
+  Future<List<SubscriptionInfo>> getSubscriptions() {
+    return _platform.getSubscriptions();
   }
 }

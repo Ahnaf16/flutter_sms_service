@@ -33,7 +33,7 @@ abstract class FlutterSmsServicePlatform extends PlatformInterface {
     );
   }
 
-  Future<List<SubscriptionInfo>> getSubscriptionInfo() {
-    return _instance.getSubscriptionInfo();
+  Future<List<SubscriptionInfo>> getSubscriptions() {
+    return _instance.getSubscriptions();
   }
 }

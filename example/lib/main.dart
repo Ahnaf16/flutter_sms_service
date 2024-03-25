@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +17,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _flutterSmsServicePlugin = FlutterSmsService();
+  final sms = FlutterSmsService();
+
+  List<SubscriptionInfo> subscriptions = [];
 
   @override
   void initState() {
@@ -26,19 +28,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    String platformVersion;
     try {
-      platformVersion = await _flutterSmsServicePlugin.getPlatformVersion() ??
-          'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      final subs = await sms.getSubscriptions();
+
+      setState(() {
+        subscriptions = subs;
+      });
+    } on PlatformException catch (e) {
+      log(e.toString());
     }
-
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   @override
@@ -49,7 +47,16 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                ...subscriptions.map(
+                  (e) => Text(e.toString()),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
