@@ -46,7 +46,11 @@ class MethodChannelFlutterSmsService extends FlutterSmsServicePlatform {
   @override
   Future<List<SubscriptionInfo>> getSubscriptionInfo() async {
     final result = await channel
-        .invokeMethod<List<SubscriptionInfo>>('getSubscriptionInfo');
-    return result ?? [];
+            .invokeMethod<List<Map<String, dynamic>>>('getSubscriptionInfo') ??
+        [];
+
+    final subs = result.map((e) => SubscriptionInfo.fromMap(e)).toList();
+
+    return subs;
   }
 }
